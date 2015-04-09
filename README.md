@@ -58,9 +58,9 @@ returning instance of a [`Project`](https://github.com/sbt/sbt/blob/0.13/main/sr
 
 Exercise: Customize project settings ([name](https://github.com/sbt/sbt/blob/0.13/main/src/main/scala/sbt/Keys.scala#L212), [version](https://github.com/sbt/sbt/blob/0.13/main/src/main/scala/sbt/Keys.scala#L287), [organization](https://github.com/sbt/sbt/blob/0.13/main/src/main/scala/sbt/Keys.scala#L218), description, etc.) using `.settings(...)` method and predefined [keys](https://github.com/sbt/sbt/blob/0.13/main/src/main/scala/sbt/Keys.scala).
 
-*How that works?*
+##### How that works?
 
-Settings are represented as nested [`SettingsDefinition`](https://github.com/sbt/sbt/blob/0.13/util/collection/src/main/scala/sbt/Settings.scala#L446) wrapper of sequence of `Setting`
+Settings are represented as [`SettingsDefinition`](https://github.com/sbt/sbt/blob/0.13/util/collection/src/main/scala/sbt/Settings.scala#L446) wrappers of sequence of `Setting`:
 
     sealed trait SettingsDefinition {
         def settings: Seq[Setting[_]]
