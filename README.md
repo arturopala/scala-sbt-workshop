@@ -4,7 +4,7 @@ Scala SBT Workshop
 Step 1 - Project configuration
 ---
 
-    git clone ???
+    git clone https://github.com/arturopala/scala-sbt-workshop.git
     sbt
 
 Initial setup consists of `/project/Build.scala` file only.
