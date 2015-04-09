@@ -104,7 +104,7 @@ Parameter of type [`Initialize`](https://github.com/sbt/sbt/blob/0.13/util/colle
 
 ##### What is scope?
 
-[`Scope`](https://github.com/sbt/sbt/blob/0.13/main/settings/src/main/scala/sbt/Scope.scala#L9) is a kind of complex multidimensional key:
+[`Scope`](https://github.com/sbt/sbt/blob/0.13/main/settings/src/main/scala/sbt/Scope.scala#L9) is a kind of complex 3-dimensional key:
 
     final case class Scope(
         project: ScopeAxis[Reference], 
@@ -137,7 +137,7 @@ There exists 2 predefined values of ScopeAxis: `This` and `Global`, plus one `Se
     case object Global extends ScopeAxis[Nothing]
     final case class Select[S](s: S) extends ScopeAxis[S] {...}
 
-First scope dimension is [`Reference`](https://github.com/sbt/sbt/blob/0.13/main/settings/src/main/scala/sbt/Reference.scala#L12) which identifies a project or build:
+First scope dimension is [`Reference`](https://github.com/sbt/sbt/blob/0.13/main/settings/src/main/scala/sbt/Reference.scala#L12) which identifies a project or a build:
 
     sealed trait Reference
     sealed trait ResolvedReference extends Reference
@@ -154,6 +154,8 @@ First scope dimension is [`Reference`](https://github.com/sbt/sbt/blob/0.13/main
 Second scope dimension is [`ConfigKey`](https://github.com/sbt/sbt/blob/0.13/main/settings/src/main/scala/sbt/ConfigKey.scala#L3) which identifies a named configuration:
 
     final case class ConfigKey(name: String)
+
+Third scope dimesion is Task represented as `AttributeKey`.
 
 ##### What is key?
 
