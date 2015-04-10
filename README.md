@@ -3,15 +3,15 @@ Scala SBT Workshop
 
 ### Prerequisites
 
-Java <https://www.java.com/pl/download/>
-SBT <http://www.scala-sbt.org/download.html>
+-   JVM <https://www.java.com/pl/download/>
+-   SBT <http://www.scala-sbt.org/download.html>
 
 ### Preparation
 
-    git clone https://github.com/sbt/sbt.git
-    git clone https://github.com/arturopala/scala-sbt-workshop.git
-    cd scala-sbt-workshop
-    sbt
+    $ git clone https://github.com/sbt/sbt.git
+    $ git clone https://github.com/arturopala/scala-sbt-workshop.git
+    $ cd scala-sbt-workshop
+    $ sbt
 
 Initial setup consists of `/project/Build.scala` file only.
 
@@ -60,7 +60,7 @@ returning instance of a [`Project`](https://github.com/sbt/sbt/blob/0.13/main/sr
 
 ### Step 02 - Add settings
 
-    git checkout step01
+    $ git checkout step01
 
 Exercise: Customize project settings ([name](https://github.com/sbt/sbt/blob/0.13/main/src/main/scala/sbt/Keys.scala#L212), [version](https://github.com/sbt/sbt/blob/0.13/main/src/main/scala/sbt/Keys.scala#L287), [organization](https://github.com/sbt/sbt/blob/0.13/main/src/main/scala/sbt/Keys.scala#L218), description, etc.) using `.settings(...)` method and predefined [keys](https://github.com/sbt/sbt/blob/0.13/main/src/main/scala/sbt/Keys.scala).
 
@@ -237,7 +237,7 @@ As `Global` scope is default scope so we can omit it and further inline setting 
 
 ### Step 03 - Add tasks
 
-    git checkout step02
+    $ git checkout step02
 
 Another type of key unnecessary to do some real job in SBT is a [`TaskKey`](https://github.com/sbt/sbt/blob/0.13/main/settings/src/main/scala/sbt/Structure.scala#L66):
 
@@ -278,6 +278,8 @@ Examples of default `TaskKey` definitions:
 
 ##### How to create task setting?
 
+You can create a task setting using one of the methods available in `TaskKey` class:
+
     def <<=(app: Initialize[Task[S]]): Setting[Task[S]] = ...
     def :=(v: S): Setting[Task[S]] = ...
     def ~=(f: S => S): Setting[Task[S]] = ...
@@ -288,8 +290,31 @@ Examples of default `TaskKey` definitions:
     def -=[U](v: U)(implicit r: Remove.Value[T, U]): Setting[Task[T]] = ...
     def --=[U](vs: U)(implicit r: Remove.Values[T, U]): Setting[Task[T]] = ...
 
-    git checkout step03
+    $ git checkout step03
 
 **Remember: All build dependencies in sbt are automatic rather than explicitly declared. If you use a key’s value in another computation, then the computation depends on that key. It just works!**
 
 [Read more about tasks](http://www.scala-sbt.org/0.13/docs/Tasks.html)
+
+### Step 04 - Define plugin
+
+Sbt allows us to easily split-up complex build features using plugins, external or local
+[`AutoPlugin`](https://github.com/sbt/sbt/blob/0.13/main/src/main/scala/sbt/Plugins.scala#L59) is a trait ready to extend to build plugin:
+
+    abstract class AutoPlugin extends Plugins.Basic with PluginsFunctions {
+      def trigger: PluginTrigger = noTrigger
+      def requires: Plugins = empty
+      val label: String = getClass.getName.stripSuffix("$")
+      def projectConfigurations: Seq[Configuration] = Nil
+      def projectSettings: Seq[Setting[_]] = Nil
+      def buildSettings: Seq[Setting[_]] = Nil
+      def globalSettings: Seq[Setting[_]] = Nil
+    }
+
+[Read more about plugins](http://www.scala-sbt.org/0.13/docs/Plugins.html)
+
+    $ git checkout step04
+
+### Step 05 - Add custom scope
+
+    $ git checkout step05
