@@ -8,43 +8,34 @@ object CommonSettings {
 object MyBuild extends Build {
 
 	val main = Project("main", file("."))
-		.enablePlugins(MyPlugin1, MyPlugin2)
+		.enablePlugins(MyPlugin)
 		.settings(
    			version := "0.1.a",
    			organization := "fi.siili",
     		scalaVersion := CommonSettings.scalaVersion,
-    		MyKeys.dumbSetting := "Santa ",
-    		MyKeys.dumbTask += "ho ho"
+    		MyKeys.mySetting := version.value
 		)
 }
 
 object MyKeys {
-	val dumbSetting = settingKey[String]("A new setting 01.")
-	val dumbTask = taskKey[String]("A new task 01.")
+	val mySetting = settingKey[String]("A new my setting.")
+	val myTask = taskKey[String]("A new my task.")
 }
 
-object MyPlugin1 extends AutoPlugin {
+object MyPlugin extends AutoPlugin {
+
+	val MyScope = config("MyScope")
 
     import MyKeys._
 
-	def dumbSettings = Seq(
-		dumbTask := dumbSetting.value,
-		(compile in Compile) <<= (compile in Compile).dependsOn(dumbTask)
+	def mySettings = Seq(
+		myTask in MyScope := {
+			val a = ((mySetting in MyScope) ?? "Missing").value
+			println(a)
+			a.reverse
+		}
 	)
 
-	override def projectSettings: Seq[Setting[_]] = dumbSettings
-
-}
-
-object MyPlugin2 extends AutoPlugin {
-
-    import MyKeys._
-
-	def dumbSettings = Seq(
-		dumbTask := dumbSetting.value.reverse,
-		(compile in Compile) <<= (compile in Compile).dependsOn(dumbTask)
-	)
-
-	override def projectSettings: Seq[Setting[_]] = dumbSettings
+	override def projectSettings: Seq[Setting[_]] = mySettings
 
 }
