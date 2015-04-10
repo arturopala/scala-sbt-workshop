@@ -8,22 +8,40 @@ object CommonSettings {
 object MyBuild extends Build {
 
 	val main = Project("main", file("."))
+		.enablePlugins(MyPlugin1, MyPlugin2)
 		.settings(
    			version := "0.1.a",
    			organization := "fi.siili",
     		scalaVersion := CommonSettings.scalaVersion,
-    		MyPlugin.dumbSetting := "Scala source: "+(scalaSource in Compile).value.toString
+    		MyKeys.dumbSetting := "Santa ",
+    		MyKeys.dumbTask += "ho ho"
 		)
-		.enablePlugins(MyPlugin)
 }
 
-object MyPlugin extends AutoPlugin {
+object MyKeys {
+	val dumbSetting = settingKey[String]("A new setting 01.")
+	val dumbTask = taskKey[String]("A new task 01.")
+}
 
-    val dumbSetting = settingKey[String]("A new setting 01.")
-	val dumbTask = taskKey[Unit]("A new task 01.")
+object MyPlugin1 extends AutoPlugin {
+
+    import MyKeys._
 
 	def dumbSettings = Seq(
-		dumbTask := println(dumbSetting.value),
+		dumbTask := dumbSetting.value,
+		(compile in Compile) <<= (compile in Compile).dependsOn(dumbTask)
+	)
+
+	override def projectSettings: Seq[Setting[_]] = dumbSettings
+
+}
+
+object MyPlugin2 extends AutoPlugin {
+
+    import MyKeys._
+
+	def dumbSettings = Seq(
+		dumbTask := dumbSetting.value.reverse,
 		(compile in Compile) <<= (compile in Compile).dependsOn(dumbTask)
 	)
 
