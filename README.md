@@ -233,6 +233,8 @@ As `Global` scope is default scope so we can omit it and further inline setting 
       version := "0.1.a"
     )
 
+[Read more about settings](http://www.scala-sbt.org/0.13/tutorial/More-About-Settings.html)
+
 ### Step 03 - Add tasks
 
 Another type of key unnecessary to do some real job in SBT is a [`TaskKey`](https://github.com/sbt/sbt/blob/0.13/main/settings/src/main/scala/sbt/Structure.scala#L66):
@@ -274,8 +276,6 @@ Examples of default `TaskKey` definitions:
 
 ##### How to create task setting?
 
-[read more](http://www.scala-sbt.org/0.13/docs/Tasks.html)
-
     def <<=(app: Initialize[Task[S]]): Setting[Task[S]] = ...
     def :=(v: S): Setting[Task[S]] = ...
     def ~=(f: S => S): Setting[Task[S]] = ...
@@ -289,3 +289,4 @@ Examples of default `TaskKey` definitions:
 
 **All build dependencies in sbt are automatic rather than explicitly declared. If you use a key’s value in another computation, then the computation depends on that key. It just works!**
 
+[Read more about tasks](http://www.scala-sbt.org/0.13/docs/Tasks.html)
