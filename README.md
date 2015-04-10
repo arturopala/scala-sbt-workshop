@@ -60,7 +60,7 @@ returning instance of a [`Project`](https://github.com/sbt/sbt/blob/0.13/main/sr
 
 ### Step 02 - Add settings
 
-    git checkout step1
+    git checkout step01
 
 Exercise: Customize project settings ([name](https://github.com/sbt/sbt/blob/0.13/main/src/main/scala/sbt/Keys.scala#L212), [version](https://github.com/sbt/sbt/blob/0.13/main/src/main/scala/sbt/Keys.scala#L287), [organization](https://github.com/sbt/sbt/blob/0.13/main/src/main/scala/sbt/Keys.scala#L218), description, etc.) using `.settings(...)` method and predefined [keys](https://github.com/sbt/sbt/blob/0.13/main/src/main/scala/sbt/Keys.scala).
 
@@ -237,6 +237,8 @@ As `Global` scope is default scope so we can omit it and further inline setting 
 
 ### Step 03 - Add tasks
 
+    git checkout step02
+
 Another type of key unnecessary to do some real job in SBT is a [`TaskKey`](https://github.com/sbt/sbt/blob/0.13/main/settings/src/main/scala/sbt/Structure.scala#L66):
 
     sealed abstract class TaskKey[T] ... {
@@ -286,7 +288,8 @@ Examples of default `TaskKey` definitions:
     def -=[U](v: U)(implicit r: Remove.Value[T, U]): Setting[Task[T]] = ...
     def --=[U](vs: U)(implicit r: Remove.Values[T, U]): Setting[Task[T]] = ...
 
+    git checkout step03
 
-**All build dependencies in sbt are automatic rather than explicitly declared. If you use a key’s value in another computation, then the computation depends on that key. It just works!**
+**Remember: All build dependencies in sbt are automatic rather than explicitly declared. If you use a key’s value in another computation, then the computation depends on that key. It just works!**
 
 [Read more about tasks](http://www.scala-sbt.org/0.13/docs/Tasks.html)
